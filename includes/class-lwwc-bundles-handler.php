@@ -31,7 +31,8 @@ class Handler {
         require_once dirname( __FILE__ ) . '/class-lwwc-bundle-product-handler.php';
 
         // Create and register the handler.
-        $bundle_handler = new LWWC_Bundle_Product_Handler();
+        // Use fully qualified class name (leading backslash) to escape namespace.
+        $bundle_handler = new \LWWC_Bundle_Product_Handler();
         $handler_manager->register_handler( $bundle_handler );
     }
 
