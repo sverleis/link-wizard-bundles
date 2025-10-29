@@ -183,5 +183,22 @@ class LWWC_Bundle_Product_Handler implements LWWC_Product_Handler_Interface {
 			'errors'   => $errors,
 		);
 	}
+
+	/**
+	 * Generate URL for this product type.
+	 *
+	 * Bundle products use the default URL logic, so we return null.
+	 * Custom bundle URLs are handled via the REST API endpoint.
+	 *
+	 * @since 0.1.0
+	 * @param WC_Product $product      The product.
+	 * @param string     $link_type    'addToCart' or 'checkoutLink'.
+	 * @param array      $options      Additional options (redirect, quantity, etc.).
+	 * @return string|null The generated URL, or null to use default logic.
+	 */
+	public function generate_url( $product, $link_type, $options = array() ) {
+		// Bundle products use the default URL logic or REST API.
+		return null;
+	}
 }
 
