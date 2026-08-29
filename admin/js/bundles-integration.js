@@ -60,6 +60,13 @@
 			quantity: product.quantity || 1,
 		};
 
+		if ( Object.keys( quantities ).length > 0 ) {
+			bundleProduct.child_quantities = getQuantities(
+				product,
+				quantities
+			);
+		}
+
 		setSelectedProducts( ( selectedProducts ) => [
 			...selectedProducts,
 			bundleProduct,
@@ -67,7 +74,7 @@
 	};
 
 	const ExistingComplexProductUI = window.LWWCAddons.ComplexProductUI;
-	const { createElement } = window.wp.element;
+	const { createElement, useState } = window.wp.element;
 
 	/**
 	 * Render the default contents of a bundle without replacing Composite UI.
@@ -76,7 +83,10 @@
 	 * @return {Object|null} Element tree or null when collapsed.
 	 */
 	function BundleProductConfig( props ) {
-		const { product, isProductExpanded } = props;
+		const { product, isProductExpanded, linkType } = props;
+		const [ quantities, setQuantities ] = useState( () =>
+			getQuantities( product )
+		);
 
 		if ( product.type !== 'bundle' ) {
 			return ExistingComplexProductUI
@@ -84,22 +94,33 @@
 				: null;
 		}
 
-		if ( ! isProductExpanded?.( product.id ) ) {
+		const canConfigure = linkType === 'addToCart';
+		if ( canConfigure && ! isProductExpanded?.( product.id ) ) {
 			return null;
 		}
 
-		const quantities = getQuantities( product );
 		const items = product.bundled_items || [];
 
 		return createElement(
 			'div',
 			{ className: 'lwwc-bundle-config' },
-			createElement( 'h4', null, 'Default bundle contents' ),
+			createElement(
+				'h4',
+				null,
+				canConfigure
+					? 'Configure bundle quantities'
+					: 'Default bundle contents'
+			),
 			createElement(
 				'ul',
 				{ className: 'lwwc-bundle-config-items' },
-				...items.map( ( item ) =>
-					createElement(
+				...items.map( ( item ) => {
+					const minimum = item.optional ? 0 : item.quantity.min;
+					const maximum =
+						item.quantity.max > 0 ? item.quantity.max : undefined;
+					const quantity = quantities[ item.bundled_item_id ] || 0;
+
+					return createElement(
 						'li',
 						{ key: item.bundled_item_id },
 						createElement(
@@ -109,30 +130,146 @@
 								? `${ item.name } (optional)`
 								: item.name
 						),
-						createElement(
-							'span',
-							{ className: 'lwwc-bundle-config-quantity' },
-							quantities[ item.bundled_item_id ]
-								? `× ${ quantities[ item.bundled_item_id ] }`
-								: 'Not selected'
-						)
-					)
-				)
+						canConfigure
+							? createElement( 'input', {
+									className:
+										'lwwc-bundle-config-quantity-input',
+									type: 'number',
+									min: minimum,
+									max: maximum,
+									value: quantity,
+									'aria-label': `Quantity for ${ item.name }`,
+									onChange: ( event ) => {
+										const entered = Number.parseInt(
+											event.target.value,
+											10
+										);
+										const bounded = Math.max(
+											minimum,
+											maximum
+												? Math.min(
+														maximum,
+														entered || 0
+												  )
+												: entered || 0
+										);
+										setQuantities( ( current ) => ( {
+											...current,
+											[ item.bundled_item_id ]: bounded,
+										} ) );
+									},
+							  } )
+							: createElement(
+									'span',
+									{
+										className:
+											'lwwc-bundle-config-quantity',
+									},
+									quantity
+										? `× ${ quantity }`
+										: 'Not selected'
+							  )
+					);
+				} )
 			),
-			createElement(
-				'button',
-				{
-					type: 'button',
-					className: 'button button-secondary',
-					onClick: () => {
-						props.handleAddBundleProduct( product, quantities );
-						props.toggleProductExpansion?.( product.id );
-					},
-				},
-				'Add bundle'
-			)
+			canConfigure
+				? createElement(
+						'button',
+						{
+							type: 'button',
+							className: 'button button-secondary',
+							onClick: () => {
+								props.handleAddBundleProduct(
+									product,
+									quantities
+								);
+								props.toggleProductExpansion?.( product.id );
+							},
+						},
+						'Add configured bundle'
+				  )
+				: createElement(
+						'p',
+						{ className: 'description' },
+						'Checkout links use the default bundle configuration.'
+				  )
 		);
 	}
 
 	window.LWWCAddons.ComplexProductUI = BundleProductConfig;
+	window.lwwcAddonUrlDisplayHandlers =
+		window.lwwcAddonUrlDisplayHandlers || {};
+	window.lwwcAddonUrlDisplayHandlers.bundle = function ( product ) {
+		const parts = [];
+
+		Object.entries( product.child_quantities || {} ).forEach(
+			( [ childId, quantity ] ) => {
+				parts.push(
+					createElement(
+						'span',
+						{
+							key: `amp-bundle-${ product.unique_id }-${ childId }`,
+							className: 'dynamic-link-separator',
+						},
+						'&'
+					),
+					createElement(
+						'span',
+						{
+							key: `bundle-quantity-${ product.unique_id }-${ childId }`,
+							className: 'dynamic-link-product-param',
+						},
+						`bundle_quantity_${ childId }=${ quantity }`
+					)
+				);
+
+				const item = product.bundled_items?.find(
+					( bundledItem ) =>
+						String( bundledItem.bundled_item_id ) ===
+						String( childId )
+				);
+				if ( item?.optional && Number( quantity ) > 0 ) {
+					parts.push(
+						createElement(
+							'span',
+							{
+								key: `amp-optional-${ product.unique_id }-${ childId }`,
+								className: 'dynamic-link-separator',
+							},
+							'&'
+						),
+						createElement(
+							'span',
+							{
+								key: `bundle-optional-${ product.unique_id }-${ childId }`,
+								className: 'dynamic-link-product-param',
+							},
+							`bundle_selected_optional_${ childId }=yes`
+						)
+					);
+				}
+			}
+		);
+
+		parts.push(
+			createElement(
+				'span',
+				{
+					key: `amp-bundle-total-${ product.unique_id }`,
+					className: 'dynamic-link-separator',
+				},
+				'&'
+			),
+			createElement(
+				'span',
+				{
+					key: `bundle-total-${ product.unique_id }`,
+					className: 'dynamic-link-product-param',
+				},
+				`quantity=${ product.quantity || 1 }`
+			)
+		);
+
+		return parts;
+	};
 } )();
