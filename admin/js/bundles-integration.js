@@ -74,7 +74,8 @@
 	};
 
 	const ExistingComplexProductUI = window.LWWCAddons.ComplexProductUI;
-	const { createElement, useState } = window.wp.element;
+	const { createElement } = window.wp.element;
+	const configuredQuantities = {};
 
 	/**
 	 * Render the default contents of a bundle without replacing Composite UI.
@@ -84,9 +85,8 @@
 	 */
 	function BundleProductConfig( props ) {
 		const { product, isProductExpanded, linkType } = props;
-		const [ quantities, setQuantities ] = useState( () =>
-			getQuantities( product )
-		);
+		const quantities =
+			configuredQuantities[ product.id ] || getQuantities( product );
 
 		if ( product.type !== 'bundle' ) {
 			return ExistingComplexProductUI
@@ -153,10 +153,11 @@
 												  )
 												: entered || 0
 										);
-										setQuantities( ( current ) => ( {
-											...current,
+										configuredQuantities[ product.id ] = {
+											...quantities,
 											[ item.bundled_item_id ]: bounded,
-										} ) );
+										};
+										integration.onStateChange?.();
 									},
 							  } )
 							: createElement(
