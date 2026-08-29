@@ -1,0 +1,47 @@
+/* Link Wizard Product Bundles admin integration. */
+
+.lwwc-bundle-config {
+	margin: 0 16px 16px;
+	padding: 14px 16px;
+	border: 1px solid var(--wp-admin-border-color-light, #c3c4c7);
+	background: var(--wp-admin-card-background, #fff);
+}
+
+.lwwc-bundle-config h4 {
+	margin: 0 0 10px;
+	font-size: 13px;
+}
+
+.lwwc-bundle-config-items {
+	margin: 0 0 12px;
+	padding: 0;
+	list-style: none;
+}
+
+.lwwc-bundle-config-items li {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	margin: 0;
+	padding: 7px 0;
+	border-bottom: 1px solid var(--wp-admin-border-color-light, #c3c4c7);
+}
+
+.lwwc-bundle-config-items li:first-child {
+	padding-top: 0;
+}
+
+.lwwc-bundle-config-quantity {
+	flex-shrink: 0;
+	color: var(--wp-admin-secondary-text-color-light, #646970);
+	font-variant-numeric: tabular-nums;
+}
+
+
+@media (max-width: 600px) {
+
+	.lwwc-bundle-config {
+		margin-right: 10px;
+		margin-left: 10px;
+	}
+}

@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'LWWC_BUNDLES_VERSION', '0.1.0' );
 define( 'LWWC_BUNDLES_PLUGIN_FILE', __FILE__ );
 define( 'LWWC_BUNDLES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'LWWC_BUNDLES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Bootstrap the addon only in admin where Link Wizard runs.
