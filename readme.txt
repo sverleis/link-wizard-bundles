@@ -4,7 +4,7 @@ Tags: woocommerce, product bundles, checkout links, add to cart
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 1.0.0-beta1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Adds WooCommerce Product Bundles support to Link Wizard for WooCommerce.
 
 Link Wizard for Bundles connects Link Wizard for WooCommerce with WooCommerce Product Bundles.
 
-The initial 0.1.0 integration registers Bundles with Link Wizard's add-on manager. Product search, URL generation, and bundle configuration support will be implemented in subsequent releases.
+The 1.0 beta adds bundle product discovery, default add-to-cart and checkout links, and per-item quantity configuration for add-to-cart links. Checkout links intentionally use the bundle's default configuration.
 
 == Requirements ==
 
@@ -33,9 +33,18 @@ The initial 0.1.0 integration registers Bundles with Link Wizard's add-on manage
 
 = Does this release generate bundle checkout links? =
 
-Not yet. Version 0.1.0 establishes add-on discovery and capability metadata before product handling is added.
+Yes. Checkout links preserve the Product Bundles parent item and use its default configuration. Per-item custom quantities are available for add-to-cart links only.
 
 == Changelog ==
+
+= 1.0.0-beta1 =
+* Add bundle products to Link Wizard product search.
+* Expose bundled items, quantities, validation data, and default URLs.
+* Add authenticated bundle product and URL-generation REST endpoints.
+* Add per-item quantity configuration for add-to-cart links.
+* Respect Product Bundles optional-item defaults.
+* Preserve Composite Products configuration when both integrations are active.
+* Avoid cross-runtime React hooks in the bundle configuration interface.
 
 = 0.1.0 =
 * Register Link Wizard for Bundles with the Link Wizard add-on manager.
