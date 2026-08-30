@@ -10,6 +10,10 @@
  * Requires at least: 6.2
  * Requires PHP: 7.4
  * Requires Plugins: link-wizard-for-woocommerce, woocommerce
+ * Link Wizard Add-on API: 2.0
+ * Requires Link Wizard: 2.0.0-beta1
+ * Tested Link Wizard: 2.0
+ * Requires WooCommerce Extension: woocommerce-product-bundles
  * License: GPL-3.0-or-later
  */
 
@@ -28,7 +32,14 @@ define( 'LWWC_BUNDLES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  */
 add_action( 'plugins_loaded', function () {
     // Load only when the required integration APIs are available.
-    if ( ! class_exists( 'LWWC_Link_Wizard' ) || ! class_exists( 'WooCommerce' ) || ! class_exists( 'WC_Bundles' ) ) {
+    if (
+        ! class_exists( 'LWWC_Link_Wizard' ) ||
+        ! defined( 'LWWC_ADDON_API_VERSION' ) ||
+        '2.0' !== LWWC_ADDON_API_VERSION ||
+        version_compare( LWWC_VERSION, '2.0.0-beta1', '<' ) ||
+        ! class_exists( 'WooCommerce' ) ||
+        ! class_exists( 'WC_Bundles' )
+    ) {
         return;
     }
 

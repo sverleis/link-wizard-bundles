@@ -18,16 +18,17 @@ The 1.0 beta adds bundle product discovery, default add-to-cart and checkout lin
 
 == Requirements ==
 
-* Link Wizard for WooCommerce
+* Link Wizard for WooCommerce 2.0.0-beta1 or newer (add-on API 2.0)
 * WooCommerce
 * WooCommerce Product Bundles
 
 == Installation ==
 
-1. Install and activate Link Wizard for WooCommerce.
+1. Install and activate Link Wizard for WooCommerce 2.0.0-beta1 or newer.
 2. Install and activate WooCommerce and WooCommerce Product Bundles.
-3. Install and activate Link Wizard for Bundles.
-4. Open Products > Link Wizard and confirm that the Bundles add-on card is active.
+3. Download the versioned ZIP from https://github.com/sverleis/link-wizard-bundles/releases.
+4. Upload and activate the ZIP through Plugins > Add New > Upload Plugin.
+5. Open Products > Link Wizard and confirm that the Bundles add-on card is active.
 
 == Frequently Asked Questions ==
 
