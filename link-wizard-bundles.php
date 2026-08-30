@@ -7,10 +7,9 @@
  * Author: Link Wizard
  * Author URI: https://github.com/sverleis
  * Text Domain: link-wizard-bundles
- * Domain Path: /languages
  * Requires at least: 6.2
  * Requires PHP: 7.4
- * Requires Plugins: woocommerce
+ * Requires Plugins: link-wizard-for-woocommerce, woocommerce
  * License: GPL-3.0-or-later
  */
 
@@ -27,11 +26,8 @@ define( 'LWWC_BUNDLES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
  * Bootstrap the addon only in admin where Link Wizard runs.
  */
 add_action( 'plugins_loaded', function () {
-    // Load text domain.
-    load_plugin_textdomain( 'link-wizard-bundles', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-
-    // Basic guard.
-    if ( ! class_exists( 'WooCommerce' ) ) {
+    // Load only when the required integration APIs are available.
+    if ( ! class_exists( 'LWWC_Link_Wizard' ) || ! class_exists( 'WooCommerce' ) || ! class_exists( 'WC_Bundles' ) ) {
         return;
     }
 
