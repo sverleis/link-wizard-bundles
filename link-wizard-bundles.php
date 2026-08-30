@@ -35,7 +35,8 @@ add_action( 'plugins_loaded', function () {
     if (
         ! class_exists( 'LWWC_Link_Wizard' ) ||
         ! defined( 'LWWC_ADDON_API_VERSION' ) ||
-        '2.0' !== LWWC_ADDON_API_VERSION ||
+        ! defined( 'LWWC_VERSION' ) ||
+        2 !== absint( LWWC_ADDON_API_VERSION ) ||
         version_compare( LWWC_VERSION, '2.0.0-beta1', '<' ) ||
         ! class_exists( 'WooCommerce' ) ||
         ! class_exists( 'WC_Bundles' )
