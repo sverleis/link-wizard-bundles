@@ -4,7 +4,7 @@ Tags: woocommerce, product bundles, checkout links, add to cart
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0-beta2
+Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,13 +18,13 @@ The 1.0 beta adds bundle product discovery, default add-to-cart and checkout lin
 
 == Requirements ==
 
-* Link Wizard for WooCommerce 2.0.0-beta1 or newer (add-on API 2.0)
+* Link Wizard for WooCommerce 2.0.0 or newer (add-on API 2.0)
 * WooCommerce
 * WooCommerce Product Bundles
 
 == Installation ==
 
-1. Install and activate Link Wizard for WooCommerce 2.0.0-beta1 or newer.
+1. Install and activate Link Wizard for WooCommerce 2.0.0 or newer.
 2. Install and activate WooCommerce and WooCommerce Product Bundles.
 3. Download the versioned ZIP from https://github.com/sverleis/link-wizard-bundles/releases.
 4. Upload and activate the ZIP through Plugins > Add New > Upload Plugin.
@@ -37,6 +37,12 @@ The 1.0 beta adds bundle product discovery, default add-to-cart and checkout lin
 Yes. Checkout links preserve the Product Bundles parent item and use its default configuration. Per-item custom quantities are available for add-to-cart links only.
 
 == Changelog ==
+
+= 1.0.0 =
+* Add production support for WooCommerce Product Bundles in Link Wizard 2.0.
+* Add bundle discovery, validation, default links, and per-item add-to-cart quantities.
+* Preserve native Product Bundles defaults for checkout links.
+* Declare add-on API 2.0 compatibility and automate versioned release packages.
 
 = 1.0.0-beta2 =
 * Declare Link Wizard add-on API 2.0 and minimum compatible core version.
