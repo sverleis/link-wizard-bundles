@@ -3,9 +3,9 @@
  * Plugin Name: Link Wizard for Bundles
  * Plugin URI: https://github.com/sverleis/link-wizard-bundles
  * Description: Link Wizard addon providing WooCommerce Product Bundles support (Add-to-Cart full support; Checkout-Link defaults only).
- * Version: 1.0.0
- * Author: Link Wizard
- * Author URI: https://github.com/sverleis
+ * Version: 1.0.1
+ * Author: Mags Industries
+ * Author URI: https://magsindustries.wordpress.com
  * Text Domain: link-wizard-bundles
  * Requires at least: 6.2
  * Requires PHP: 7.4
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants.
-define( 'LWWC_BUNDLES_VERSION', '1.0.0' );
+define( 'LWWC_BUNDLES_VERSION', '1.0.1' );
 define( 'LWWC_BUNDLES_PLUGIN_FILE', __FILE__ );
 define( 'LWWC_BUNDLES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LWWC_BUNDLES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

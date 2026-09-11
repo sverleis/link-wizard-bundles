@@ -4,7 +4,7 @@ Tags: woocommerce, product bundles, checkout links, add to cart
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,6 +37,9 @@ The 1.0 beta adds bundle product discovery, default add-to-cart and checkout lin
 Yes. Checkout links preserve the Product Bundles parent item and use its default configuration. Per-item custom quantities are available for add-to-cart links only.
 
 == Changelog ==
+
+= 1.0.1 =
+* Align plugin authorship metadata with Link Wizard for WooCommerce.
 
 = 1.0.0 =
 * Add production support for WooCommerce Product Bundles in Link Wizard 2.0.
